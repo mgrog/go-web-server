@@ -6,18 +6,35 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"go_server/graph/model"
+	"go_server/service"
 )
 
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.Create(input)
+}
+
+// UpdateTodo is the resolver for the updateTodo field.
+func (r *mutationResolver) UpdateTodo(ctx context.Context, id int, input model.UpdateTodo) (*model.Todo, error) {
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.Update(id, input)
 }
 
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.GetAll()
+}
+
+// Parent is the resolver for the parent field.
+func (r *todoResolver) Parent(ctx context.Context, obj *model.Todo) (*model.Todo, error) {
+	if obj.ParentID == nil {
+		return nil, nil
+	}
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.Get(*obj.ParentID)
 }
 
 // Mutation returns MutationResolver implementation.
@@ -26,5 +43,9 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+// Todo returns TodoResolver implementation.
+func (r *Resolver) Todo() TodoResolver { return &todoResolver{r} }
+
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type todoResolver struct{ *Resolver }

@@ -1,0 +1,66 @@
+# This is the schema for the json placeholder API.
+
+type Company {
+  name: String!
+  catchPhrase: String!
+  bs: String!
+}
+
+type Address {
+  street: String!
+  suite: String!
+  city: String!
+  zipcode: String!
+  geo: Geo
+}
+
+type Geo {
+  lat: String!
+  lng: String!
+}
+
+type User {
+  id: ID!
+  name: String!
+  username: String!
+  email: String!
+  address: Address!
+  phone: String!
+  website: String!
+  company: Company!
+  posts: [Post!] @goField(forceResolver: true)
+  albums: [Album!] @goField(forceResolver: true)
+}
+
+extend type Query {
+  users: [User!]!
+  user(id: ID!): User
+  posts: [Post!]!
+  post(id: ID!): Post
+  albums: [Album!]!
+  album(id: ID!): Album
+  photos: [Photo!]!
+  photo(id: ID!): Photo
+}
+
+type Post {
+  userId: ID!
+  id: ID!
+  title: String!
+  body: String!
+}
+
+type Album {
+  userId: ID!
+  id: ID!
+  title: String!
+  photos: [Photo!] @goField(forceResolver: true)
+}
+
+type Photo {
+  albumId: ID!
+  id: ID!
+  title: String!
+  url: String!
+  thumbnailUrl: String!
+}

@@ -7,6 +7,9 @@ import (
 )
 
 func SetupRouter(r *gin.Engine) {
-	r.GET("/helloworld", handler.Helloworld)
 	r.GET("/ping", handler.Ping)
+	rg := r.Group("/v1")
+	{
+		rg.GET("/helloworld", handler.Helloworld)
+	}
 }

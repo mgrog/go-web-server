@@ -2,25 +2,88 @@
 
 package model
 
+import (
+	"time"
+)
+
+type Address struct {
+	Street  string `json:"street"`
+	Suite   string `json:"suite"`
+	City    string `json:"city"`
+	Zipcode string `json:"zipcode"`
+	Geo     *Geo   `json:"geo,omitempty"`
+}
+
+type Album struct {
+	UserID int      `json:"userId"`
+	ID     int      `json:"id"`
+	Title  string   `json:"title"`
+	Photos []*Photo `json:"photos,omitempty"`
+}
+
+type Company struct {
+	Name        string `json:"name"`
+	CatchPhrase string `json:"catchPhrase"`
+	Bs          string `json:"bs"`
+}
+
+type Geo struct {
+	Lat string `json:"lat"`
+	Lng string `json:"lng"`
+}
+
 type Mutation struct {
 }
 
 type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+	Text     *string `json:"text,omitempty"`
+	ParentID *int    `json:"parentId,omitempty" db:"parent_id"`
+}
+
+type Photo struct {
+	AlbumID      int    `json:"albumId"`
+	ID           int    `json:"id"`
+	Title        string `json:"title"`
+	URL          string `json:"url"`
+	ThumbnailURL string `json:"thumbnailUrl"`
+}
+
+type Post struct {
+	UserID int    `json:"userId"`
+	ID     int    `json:"id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
 }
 
 type Query struct {
 }
 
 type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+	ID        int       `json:"id"`
+	Text      string    `json:"text"`
+	Priority  int32     `json:"priority"`
+	Done      bool      `json:"done"`
+	Parent    *Todo     `json:"parent,omitempty"`
+	ParentID  *int      `json:"parentId,omitempty" db:"parent_id"`
+	CreatedAt time.Time `json:"createdAt" db:"created_at"`
+}
+
+type UpdateTodo struct {
+	Text     *string `json:"text,omitempty"`
+	Priority *int32  `json:"priority,omitempty"`
+	Done     *bool   `json:"done,omitempty"`
+	ParentID *int    `json:"parentId,omitempty" db:"parent_id"`
 }
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID       int      `json:"id"`
+	Name     string   `json:"name"`
+	Username string   `json:"username"`
+	Email    string   `json:"email"`
+	Address  *Address `json:"address"`
+	Phone    string   `json:"phone"`
+	Website  string   `json:"website"`
+	Company  *Company `json:"company"`
+	Posts    []*Post  `json:"posts,omitempty"`
+	Albums   []*Album `json:"albums,omitempty"`
 }
