@@ -17,9 +17,21 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 // UpdateTodo is the resolver for the updateTodo field.
-func (r *mutationResolver) UpdateTodo(ctx context.Context, id int, input model.UpdateTodo) (*model.Todo, error) {
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (*model.Todo, error) {
 	todo_svc := service.Todo{DB: r.DB}
-	return todo_svc.Update(id, input)
+	return todo_svc.Update(input)
+}
+
+// RemoveTodoParent is the resolver for the removeTodoParent field.
+func (r *mutationResolver) RemoveTodoParent(ctx context.Context, input int) (*model.Todo, error) {
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.RemoveParent(input)
+}
+
+// DeleteTodo is the resolver for the deleteTodo field.
+func (r *mutationResolver) DeleteTodo(ctx context.Context, input int) (string, error) {
+	todo_svc := service.Todo{DB: r.DB}
+	return todo_svc.Delete(input)
 }
 
 // Todos is the resolver for the todos field.

@@ -46,6 +46,7 @@ input NewTodo {
 }
 
 input UpdateTodo {
+  id: ID!
   text: String
   priority: Int
   done: Boolean
@@ -54,5 +55,7 @@ input UpdateTodo {
 
 type Mutation {
   createTodo(input: NewTodo!): Todo!
-  updateTodo(id: ID!, input: UpdateTodo!): Todo!
+  updateTodo(input: UpdateTodo!): Todo!
+  removeTodoParent(input: ID!): Todo!
+  deleteTodo(input: ID!): String!
 }

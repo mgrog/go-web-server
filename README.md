@@ -12,9 +12,9 @@ This is an example of a Gin based web server implementing common web use cases
 - [x] Setup GraphQL endpoints
 - [x] Dataloaders for N+1 queries
 - [x] SQL queries with sqlx
+- [ ] Error handling
+- [ ] Testing
+- [ ] Add logging
+- [ ] Authentication
 - [ ] Swagger documentation
 - [ ] Dockerized deployment
-- [ ] Authentication
-- [ ] Error handling
-- [ ] Add logging
-- [ ] Testing
